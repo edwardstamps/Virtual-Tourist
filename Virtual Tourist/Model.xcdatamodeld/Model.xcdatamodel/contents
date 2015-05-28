@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Map" representedClassName="Map" syncable="YES">
+        <attribute name="cityCord" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="latCord" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="zoom" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="zoom2" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
+    <entity name="MapPin" representedClassName="MapPin" syncable="YES">
+        <attribute name="cityCord" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
+        <attribute name="latCord" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="pictures" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Picture" inverseName="pin" inverseEntity="Picture" syncable="YES"/>
+    </entity>
+    <entity name="Picture" representedClassName="Picture" syncable="YES">
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="pic" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="pin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MapPin" inverseName="pictures" inverseEntity="MapPin" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="MapPin" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="Picture" positionX="-63" positionY="-9" width="128" height="90"/>
+        <element name="Map" positionX="-45" positionY="27" width="128" height="105"/>
+    </elements>
+</model>
