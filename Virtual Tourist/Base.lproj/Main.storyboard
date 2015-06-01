@@ -39,17 +39,26 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="rD9-81-ZaN"/>
                                 </connections>
                             </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r3N-8Z-7vE">
+                                <rect key="frame" x="279" y="290" width="42" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="c4g-Qn-xWb" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="3jO-UN-dXw"/>
                             <constraint firstItem="c4g-Qn-xWb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="DdT-Fy-Dkn"/>
                             <constraint firstAttribute="bottomMargin" secondItem="c4g-Qn-xWb" secondAttribute="bottom" id="GaY-xY-lyo"/>
+                            <constraint firstAttribute="centerX" secondItem="r3N-8Z-7vE" secondAttribute="centerX" id="XVs-ad-yF3"/>
+                            <constraint firstAttribute="centerY" secondItem="r3N-8Z-7vE" secondAttribute="centerY" id="t42-8b-jUi"/>
                             <constraint firstAttribute="trailingMargin" secondItem="c4g-Qn-xWb" secondAttribute="trailing" id="wP8-VL-z2X"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uss-CK-C1S"/>
                     <connections>
+                        <outlet property="errorLabel" destination="r3N-8Z-7vE" id="JPs-Jp-fft"/>
                         <outlet property="mapView" destination="c4g-Qn-xWb" id="uuP-YS-gHq"/>
                     </connections>
                 </viewController>

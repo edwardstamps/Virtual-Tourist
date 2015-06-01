@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		663A3A9F1B151AA600D421AD /* FotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A3A9E1B151AA600D421AD /* FotoCell.swift */; };
-		663A3AA11B179C3A00D421AD /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A3AA01B179C3A00D421AD /* Map.swift */; };
+		663A3AA11B179C3A00D421AD /* MapPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663A3AA01B179C3A00D421AD /* MapPin.swift */; };
 		663EF05F1B0A78480029F296 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EF05E1B0A78480029F296 /* AppDelegate.swift */; };
-		663EF0611B0A78480029F296 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663EF0601B0A78480029F296 /* ViewController.swift */; };
 		663EF0641B0A78480029F296 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663EF0621B0A78480029F296 /* Main.storyboard */; };
 		663EF0661B0A78480029F296 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663EF0651B0A78480029F296 /* Images.xcassets */; };
 		663EF0691B0A78480029F296 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663EF0671B0A78480029F296 /* LaunchScreen.xib */; };
@@ -38,11 +37,10 @@
 
 /* Begin PBXFileReference section */
 		663A3A9E1B151AA600D421AD /* FotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FotoCell.swift; sourceTree = "<group>"; };
-		663A3AA01B179C3A00D421AD /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		663A3AA01B179C3A00D421AD /* MapPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPin.swift; sourceTree = "<group>"; };
 		663EF0591B0A78480029F296 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		663EF05D1B0A78480029F296 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		663EF05E1B0A78480029F296 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		663EF0601B0A78480029F296 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		663EF0631B0A78480029F296 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		663EF0651B0A78480029F296 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		663EF0681B0A78480029F296 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -100,12 +98,11 @@
 			isa = PBXGroup;
 			children = (
 				663EF05E1B0A78480029F296 /* AppDelegate.swift */,
-				663EF0601B0A78480029F296 /* ViewController.swift */,
 				66E7E2141B0C1EB400CAC569 /* Flickr.swift */,
 				663EF0621B0A78480029F296 /* Main.storyboard */,
 				663EF0861B0A7D1C0029F296 /* CoreDataStackManager.swift */,
 				663EF0801B0A78DE0029F296 /* Pin.swift */,
-				663A3AA01B179C3A00D421AD /* Map.swift */,
+				663A3AA01B179C3A00D421AD /* MapPin.swift */,
 				66E7E2161B0C1EC500CAC569 /* Pictures.swift */,
 				66E7E2121B0C1A3300CAC569 /* DetViewController.swift */,
 				663A3A9E1B151AA600D421AD /* FotoCell.swift */,
@@ -246,7 +243,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				663EF0611B0A78480029F296 /* ViewController.swift in Sources */,
 				66E7E2151B0C1EB400CAC569 /* Flickr.swift in Sources */,
 				663EF05F1B0A78480029F296 /* AppDelegate.swift in Sources */,
 				663A3A9F1B151AA600D421AD /* FotoCell.swift in Sources */,
@@ -256,7 +252,7 @@
 				66E7E2171B0C1EC500CAC569 /* Pictures.swift in Sources */,
 				663EF0871B0A7D1C0029F296 /* CoreDataStackManager.swift in Sources */,
 				66E7E2131B0C1A3300CAC569 /* DetViewController.swift in Sources */,
-				663A3AA11B179C3A00D421AD /* Map.swift in Sources */,
+				663A3AA11B179C3A00D421AD /* MapPin.swift in Sources */,
 				663EF08A1B0A7E410029F296 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

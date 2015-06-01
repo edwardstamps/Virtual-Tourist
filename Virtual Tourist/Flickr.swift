@@ -10,17 +10,20 @@ import Foundation
 import UIKit
 import CoreData
 
-let BASE_URL = "https://api.flickr.com/services/rest/"
-let METHOD_NAME = "flickr.photos.search"
-let API_KEY = "08f89a20636b58be8c6b7b2c3bd4555c"
-let EXTRAS = "url_m"
-let SAFE_SEARCH = "1"
-let DATA_FORMAT = "json"
-let NO_JSON_CALLBACK = "1"
-let BOUNDING_BOX_HALF_WIDTH = 1.0
-let BOUNDING_BOX_HALF_HEIGHT = 1.0
-
 class Flickr: NSObject {
+    
+    var thePin : MapPin!
+    
+    let BASE_URL = "https://api.flickr.com/services/rest/"
+    let METHOD_NAME = "flickr.photos.search"
+    let API_KEY = "08f89a20636b58be8c6b7b2c3bd4555c"
+    let EXTRAS = "url_m"
+    let SAFE_SEARCH = "1"
+    let DATA_FORMAT = "json"
+    let NO_JSON_CALLBACK = "1"
+    let BOUNDING_BOX_HALF_WIDTH = 1.0
+    let BOUNDING_BOX_HALF_HEIGHT = 1.0
+
     /* Shared session */
     var photosArray = [Picture]()
     var session: NSURLSession
@@ -33,9 +36,7 @@ class Flickr: NSObject {
         super.init()
     }
     
-    var sharedContext: NSManagedObjectContext {
-        return CoreDataStackManager.sharedInstance().managedObjectContext!
-    }
+  
     
     func authenticateWithViewController(hostViewController: UIViewController, completionHandler: (success: Bool) -> Void) {
         self.getFlicks() { (success) in
@@ -95,32 +96,25 @@ func getImageFromFlickrBySearch(methodArguments: [String : AnyObject], completio
                      
                      
                         self.appDelegate.dataStuff = photosArray
-                        
-                        let randomPhotoIndex = Int(arc4random_uniform(UInt32(photosArray.count)))
-                        let photoDictionary = photosArray[randomPhotoIndex] as [String: AnyObject]
-//                        self.appDelegate.photosArray = photosArray["url_m"] as? String
-                        
-                        let photoTitle = photoDictionary["title"] as? String
-                        let imageUrlString = photoDictionary["url_m"] as? String
-                        let imageURL = NSURL(string: imageUrlString!)
-                        if let imageData = NSData(contentsOfURL: imageURL!) {
-                            dispatch_async(dispatch_get_main_queue(), {
-                                //  self.defaultLabel.alpha = 0.0
-//                              self.appDelegate.photosArray[pic] = imageData
-                             //   var PicToBeAdded = self.appDelegate.pic
-//                                self.appDelegate.pic = imageData
-//                                println(self.appDelegate.pic)
+                        completionHandler(success: true)
+//                        
+//                        let randomPhotoIndex = Int(arc4random_uniform(UInt32(photosArray.count)))
+//                        let photoDictionary = photosArray[randomPhotoIndex] as [String: AnyObject]
+//                        
+//                        let photoTitle = photoDictionary["title"] as? String
+//                        let imageUrlString = photoDictionary["url_m"] as? String
+//                        let imageURL = NSURL(string: imageUrlString!)
+//                        if let imageData = NSData(contentsOfURL: imageURL!) {
+//                            dispatch_async(dispatch_get_main_queue(), {
 //
-//                                newPhoto.image = imageData
-                                println("marcol")
-                                
-                                completionHandler(success: true)
-                                println("marco")
-                                //  self.photoTitleLabel.text = "\(photoTitle!)"
-                            })
-                        } else {
-                            println("Image does not exist at \(imageURL)")
-                        }
+//                                
+//                                completionHandler(success: true)
+//                          
+//                            })
+//                        } 
+//                        else {
+//                            println("Image does not exist at \(imageURL)")
+//                        }
                     } else {
                         println("Cant find key 'photo' in \(photosDictionary)")
                     }

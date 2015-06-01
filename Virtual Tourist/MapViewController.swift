@@ -22,6 +22,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var regionRadius: CLLocationDistance = 9000000
 
     
+    @IBOutlet weak var errorLabel: UILabel!
     var appDelegate: AppDelegate!
     var session: NSURLSession!
     
@@ -34,14 +35,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         /* Get the shared URL session */
         session = NSURLSession.sharedSession()
         self.mapView.delegate = self
-//        locationManager = CLLocationManager()
-//        locationManager.delegate = self
-//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//        locationManager.requestAlwaysAuthorization()
-//        locationManager.startUpdatingLocation()
-        
-        
-        self.getMapSpots()
+//        self.getMapSpots()
         locale = getMapSpots()
          self.firstZoom()
        
@@ -70,6 +64,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // Check for Errors
     if error != nil {
     println("Error in fectchAllPins(): \(error)")
+        dispatch_async(dispatch_get_main_queue(), {
+            self.errorLabel.text = "Error Downloading Pins"
+        })
+        
     }
 
         println(results)
@@ -137,9 +135,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         mapView.addAnnotation(annotation)
         
-        let PinToBeAdded = MapPin(context: sharedContext)
-        PinToBeAdded.cityCord = touchMapCoordinate.longitude
-        PinToBeAdded.latCord = touchMapCoordinate.latitude
+        let pinToBeAdded = MapPin(context: sharedContext)
+        pinToBeAdded.cityCord = touchMapCoordinate.longitude
+        pinToBeAdded.latCord = touchMapCoordinate.latitude
         
         
         self.appDelegate.unique = touchMapCoordinate.longitude
@@ -147,7 +145,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 //        let info = Picture(context: sharedContext)
 //        info.unique = touchMapCoordinate.longitude
         
-        self.pins.append(PinToBeAdded)
+        self.pins.append(pinToBeAdded)
         println(self.pins)
         CoreDataStackManager.sharedInstance().saveContext()
         
@@ -181,6 +179,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // Check for Errors
         if error != nil {
             println("Error in fectchAllPins(): \(error)")
+            dispatch_async(dispatch_get_main_queue(), {
+                self.errorLabel.text = "Error Downloading Location"
+            })
         }
         
         println(results)

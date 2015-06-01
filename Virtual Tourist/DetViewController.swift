@@ -17,9 +17,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
     var thePin : MapPin!
     var newPics = [Picture]()
     var otherPics = [Picture]()
-    
-//    var pico = [Picture]()
-//    var poco = [Picture]()
+
     var pinot = [MapPin]()
     
     var theDude: Int = 0
@@ -73,8 +71,6 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         if error != nil {
             println("Error in fectchAllPins(): \(error)")
         }
-        
-        println(results)
        
         
         return results as! [MapPin]
@@ -96,36 +92,39 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         for done in self.pinot{
            
             if annotation.longitude == done.cityCord {
-               
-                
-//                theDude = done
+                if annotation.latitude == done.latCord {
+
                 println(i)
                 theDude = i
                 println(theDude)
-                appDelegate.coords = annotation
+                    appDelegate.coords = annotation
                 thePin = self.pinot[theDude]
+//                    appDelegate.coords.latitude = thePin.latCord as Double
+//                    appDelegate.coords.longitude = thePin.cityCord as Double
                 
                 
                 
-                if done.pictures!.count < 12 {
+                if done.pictures!.isEmpty {
+                 
                     Flickr.sharedInstance().authenticateWithViewController(self) { (success) in
                         if success {
                             dispatch_async(dispatch_get_main_queue(), {
                                 self.studentEntry()
+                                return
                             })
                         } else {
                             self.displayError()
+                            return
                 }
                     }
                     
                 }
+                }
                 else {
-//                    newPics = done.pictures!
-                    self.saveButton.enabled = true
-                    self.collectionView.reloadData()
-                    println("hahahahah")
                     dispatch_async(dispatch_get_main_queue(), {
                        self.saveButton.enabled = true
+                          self.collectionView.reloadData()
+                        return
                     })
                     
                 }
@@ -154,7 +153,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
 //                println(PicToBeAdded)
 //                newPics.append(PicToBeAdded)
                 PicToBeAdded.pin = self.thePin
-//                parsedResult.delete(result)
+                self.collectionView.reloadData()
                 
                 
                 if i > 100 {
@@ -190,7 +189,12 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if self.thePin.pictures!.count > 11{
         return 12
+        }
+        else {
+        return self.thePin.pictures!.count
+        }
     }
     
     //similar to how we created our table but different commands for collection views
@@ -200,7 +204,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PicCell", forIndexPath: indexPath) as! UICollectionViewCell
        
 //        
-        if self.thePin.pictures!.count > 11 {
+        if self.thePin.pictures!.count > 0 {
         let thisPic = thePin.pictures![indexPath.row]
 //
 //            self.pinot[theDude].pictures![0,10]
@@ -253,7 +257,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         var add = 0
 //        
 //            newPics = [Picture]()
-            if thePin.pictures!.count > 23 {
+            if thePin.pictures!.count > 24 {
                 
                 for result in thePin.pictures! {
                     add = add + 1
