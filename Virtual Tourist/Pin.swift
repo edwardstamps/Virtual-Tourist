@@ -21,7 +21,7 @@ class MapPin : NSManagedObject {
     @NSManaged var latCord: NSNumber
     @NSManaged var zoom: NSNumber
 
-    @NSManaged var pictures: [Picture]?
+    @NSManaged var pictures: [Picture]
     
     
     override init( entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
@@ -37,5 +37,6 @@ class MapPin : NSManagedObject {
       
         
     }
+
     
 }

@@ -21,6 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var photosArray = [Picture]()
     var unique: Double? = nil
     var dataStuff: AnyObject? = nil
+    
+    var i: Int?
+    
+    var thePin: MapPin!
+    
+    var error: String? = nil
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {

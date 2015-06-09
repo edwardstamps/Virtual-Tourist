@@ -28,6 +28,8 @@ class Map : NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
         
+     
+      
         
     }
 }

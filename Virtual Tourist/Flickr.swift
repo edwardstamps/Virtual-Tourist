@@ -14,6 +14,10 @@ class Flickr: NSObject {
     
     var thePin : MapPin!
     
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext!
+    }
+    
     let BASE_URL = "https://api.flickr.com/services/rest/"
     let METHOD_NAME = "flickr.photos.search"
     let API_KEY = "08f89a20636b58be8c6b7b2c3bd4555c"

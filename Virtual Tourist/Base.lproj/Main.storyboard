@@ -45,19 +45,25 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Fq9-Ed-vd7">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="c4g-Qn-xWb" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="3jO-UN-dXw"/>
                             <constraint firstItem="c4g-Qn-xWb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="DdT-Fy-Dkn"/>
+                            <constraint firstAttribute="centerY" secondItem="Fq9-Ed-vd7" secondAttribute="centerY" id="F4C-DF-pVf"/>
                             <constraint firstAttribute="bottomMargin" secondItem="c4g-Qn-xWb" secondAttribute="bottom" id="GaY-xY-lyo"/>
                             <constraint firstAttribute="centerX" secondItem="r3N-8Z-7vE" secondAttribute="centerX" id="XVs-ad-yF3"/>
+                            <constraint firstAttribute="centerX" secondItem="Fq9-Ed-vd7" secondAttribute="centerX" id="gVM-bU-amx"/>
                             <constraint firstAttribute="centerY" secondItem="r3N-8Z-7vE" secondAttribute="centerY" id="t42-8b-jUi"/>
                             <constraint firstAttribute="trailingMargin" secondItem="c4g-Qn-xWb" secondAttribute="trailing" id="wP8-VL-z2X"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uss-CK-C1S"/>
                     <connections>
+                        <outlet property="actInd" destination="Fq9-Ed-vd7" id="CKw-M3-eIQ"/>
                         <outlet property="errorLabel" destination="r3N-8Z-7vE" id="JPs-Jp-fft"/>
                         <outlet property="mapView" destination="c4g-Qn-xWb" id="uuP-YS-gHq"/>
                     </connections>
@@ -100,7 +106,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PicCell" id="JOW-FB-Ruh">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PicCell" id="JOW-FB-Ruh" customClass="FlickrPhotoCell" customModule="Virtual_Tourist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -120,6 +126,8 @@
                                         <size key="customSize" width="100" height="100"/>
                                         <connections>
                                             <outlet property="backgroundView" destination="axS-oC-1mo" id="m6O-6t-icC"/>
+                                            <outlet property="indicator" destination="axS-oC-1mo" id="wdI-yN-ZyA"/>
+                                            <outlet property="photo" destination="vDg-Gu-wV5" id="qHZ-8B-iPI"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -157,21 +165,29 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="8i4-or-Lfp" secondAttribute="trailing" id="3uV-K8-fIC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gzd-mp-sWv" secondAttribute="trailing" id="Ai9-u8-zjw"/>
-                            <constraint firstItem="j6g-ub-Y0C" firstAttribute="top" secondItem="gzd-mp-sWv" secondAttribute="bottom" constant="435" id="Bxz-IY-Jqr"/>
+                            <constraint firstItem="j6g-ub-Y0C" firstAttribute="top" secondItem="gzd-mp-sWv" secondAttribute="bottom" constant="375" id="Bxz-IY-Jqr"/>
                             <constraint firstItem="dKp-HX-wcc" firstAttribute="top" secondItem="gzd-mp-sWv" secondAttribute="bottom" id="Csf-wY-C7H"/>
                             <constraint firstAttribute="centerX" secondItem="DpE-Rx-4at" secondAttribute="centerX" id="Eqd-pr-m1U"/>
                             <constraint firstItem="AjB-vO-ROm" firstAttribute="top" secondItem="j6g-ub-Y0C" secondAttribute="bottom" id="F3D-Tw-WW4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="j6g-ub-Y0C" secondAttribute="trailing" id="MW6-wB-oeC"/>
                             <constraint firstItem="AjB-vO-ROm" firstAttribute="top" secondItem="dKp-HX-wcc" secondAttribute="bottom" id="NBE-82-Zku"/>
                             <constraint firstItem="gzd-mp-sWv" firstAttribute="leading" secondItem="xeI-y3-qGb" secondAttribute="leadingMargin" id="RAU-Kd-Bjf"/>
-                            <constraint firstItem="dKp-HX-wcc" firstAttribute="leading" secondItem="xeI-y3-qGb" secondAttribute="leadingMargin" id="WIq-Zx-2ii"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="dKp-HX-wcc" secondAttribute="trailing" id="WwS-rG-J1O"/>
+                            <constraint firstItem="dKp-HX-wcc" firstAttribute="leading" secondItem="xeI-y3-qGb" secondAttribute="leadingMargin" constant="-16" id="WIq-Zx-2ii"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dKp-HX-wcc" secondAttribute="trailing" constant="-16" id="WwS-rG-J1O"/>
                             <constraint firstItem="j6g-ub-Y0C" firstAttribute="leading" secondItem="xeI-y3-qGb" secondAttribute="leadingMargin" id="XWa-kg-eUq"/>
                             <constraint firstItem="8i4-or-Lfp" firstAttribute="top" secondItem="xeI-y3-qGb" secondAttribute="topMargin" constant="16" id="Z3D-pl-NOL"/>
                             <constraint firstItem="8i4-or-Lfp" firstAttribute="leading" secondItem="xeI-y3-qGb" secondAttribute="leadingMargin" id="bry-hc-RPs"/>
+                            <constraint firstItem="j6g-ub-Y0C" firstAttribute="top" secondItem="dKp-HX-wcc" secondAttribute="bottom" id="gf7-v4-nNY"/>
+                            <constraint firstItem="AjB-vO-ROm" firstAttribute="top" secondItem="dKp-HX-wcc" secondAttribute="bottom" id="hAw-12-Fpj"/>
                             <constraint firstItem="gzd-mp-sWv" firstAttribute="top" secondItem="8i4-or-Lfp" secondAttribute="bottom" id="vYh-9o-wmo"/>
                             <constraint firstAttribute="centerY" secondItem="DpE-Rx-4at" secondAttribute="centerY" id="zpQ-gY-kZs"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="NBE-82-Zku"/>
+                                <exclude reference="hAw-12-Fpj"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="j7c-T9-xg3" id="E8p-Ap-Yaw"/>

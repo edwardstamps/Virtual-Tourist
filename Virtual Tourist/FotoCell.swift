@@ -10,5 +10,9 @@ import Foundation
 import UIKit
 
 class FlickrPhotoCell: UICollectionViewCell {
+    
+    //Cell will display the image and the activity indicator while loading.
+    @IBOutlet var photo: UIImageView!
+    @IBOutlet var indicator: UIActivityIndicatorView!
  
 }

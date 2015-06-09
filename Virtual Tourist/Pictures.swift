@@ -14,19 +14,27 @@ import CoreData
 @objc(Picture)
 
 class Picture: NSManagedObject {
+    
+    struct Keys {
+        static let Title = "title"
+        
+    }
 
 
 //    @NSManaged var unique: NSNumber
     @NSManaged var pic: String
-    @NSManaged var image: NSData
+    
     @NSManaged var nombre: String
 
-    @NSManaged var pin: MapPin
-   
+    @NSManaged var pin: MapPin?
+    
+    @NSManaged var imagePath: String
+ 
     
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
+        
     }
     init(context: NSManagedObjectContext){
         let entity =  NSEntityDescription.entityForName("Picture", inManagedObjectContext: context)!
@@ -36,6 +44,17 @@ class Picture: NSManagedObject {
         
     }
     
+    var image: UIImage? {
+        get {
+            return DetViewController.Caches.imageCache.imageWithIdentifier(imagePath)
+        }
+        set {
+            DetViewController.Caches.imageCache.storeImage(image, withIdentifier: imagePath)
+        }
+    }
+
+    
+  
 
 
 }
