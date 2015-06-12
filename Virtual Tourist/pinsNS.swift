@@ -15,6 +15,8 @@ class PinsNS: NSObject, NSCoding {
     var title: Int?
     var pictures: [UIImage]?
     
+
+    
     
     required convenience init(coder decoder: NSCoder) {
         self.init()
@@ -26,5 +28,7 @@ class PinsNS: NSObject, NSCoding {
         coder.encodeObject(self.pictures, forKey: "pictures")
         coder.encodeObject(self.title, forKey: "title")
     }
+    
+    
 }
 

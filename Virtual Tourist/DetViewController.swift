@@ -16,6 +16,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
     
     var thePin : MapPin!
     var newPics : [Picture]!
+    var callPics : [Picture]!
     var savPics = [PinsNS]()
     var thePicPin : PinsNS!
     
@@ -120,6 +121,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
                 image.image = imaged
                 let imageView = UIImageView(image: imaged)
                 self.thePicPin.pictures?.append(imaged!)
+              
                 NSKeyedArchiver.archiveRootObject(self.savPics, toFile: self.imagePath)
 
                 cell.backgroundView = imageView
@@ -199,22 +201,35 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
          var cell = collectionView.cellForItemAtIndexPath(indexPath) as! FlickrPhotoCell
         println("gooo")
         i = indexPath.row
-        let randomPhotoIndex = Int(arc4random_uniform(UInt32(thePin.pictures.count)))
-        let thisPic = thePin.pictures[randomPhotoIndex]
-        thePin.pictures[indexPath.row].imagePath = thisPic.imagePath
+//        let randomPhotoIndex = Int(arc4random_uniform(UInt32(thePin.pictures.count)))
+        let thisPic = thePin.pictures[13]
+        let deletePic = thePin.pictures[indexPath.row]
+
+
+        
         cell.backgroundView = nil
         dispatch_async(dispatch_get_main_queue(), {
         let theUrl = NSURL(string: thisPic.imagePath)
         let imageData = NSData(contentsOfURL: theUrl!)
             let image = UIImage(data: imageData!)
             let imageView = UIImageView(image: image)
+            
             self.thePicPin.pictures?.removeAtIndex(indexPath.row)
-            self.thePicPin.pictures?.insert(image!, atIndex: indexPath.row)
+            deletePic.pin=nil
+            deletePic.image = nil
+            
+            //this leverages the storeImage delete property from the image cache and deletes it from coredata
+            //the pic is now removed from the collection view, core data, and NSArchiver
+            
+            self.thePicPin.pictures?.insert(image!, atIndex: 11)
             
             NSKeyedArchiver.archiveRootObject(self.savPics, toFile: self.imagePath)
             
-            cell.backgroundView = imageView
-            thisPic.pin = nil
+            self.collectionView.reloadData()
+
+            
+//            cell.backgroundView = imageView
+//            thisPic.pin = nil
             })
         CoreDataStackManager.sharedInstance().saveContext()
         
@@ -233,30 +248,67 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         var i = 0
 
             if thePin.pictures.count > 24 {
-                
-                for result in thePin.pictures {
-                    result.pin = nil
-                    add = add + 1
-                    if add > 11 {
-                        thePicPin.pictures = []
-                        CoreDataStackManager.sharedInstance().saveContext()
-                        self.collectionView.reloadData()
-//                        i++
-                        return
-                        
-                        
-                }
-                }
-                
-
-        }
-        
+                thePicPin.pictures = []
+                self.findPics()
+            }
+            
             else {
                     dispatch_async(dispatch_get_main_queue(), {
                 self.errorText.text = "No Additional Pics"
                 })
         }
 
+    }
+    
+    func findPics(){
+        //we use this function to help us locate the spot in the array of the pin and also for the NSArchiver file of pictures. We then use the appDelegate to save that number for use in our collectionview.
+        
+        
+        Flickr.sharedInstance().authenticateWithViewController(self) { (success) in
+            if success {
+                dispatch_async(dispatch_get_main_queue(), {
+                    for result in self.thePin.pictures {
+                        result.pin = nil
+                    }
+                    self.studentEntry()
+//                    self.collectionView.reloadData()
+                    return
+                })
+            } else {
+                self.errorText.text = "Error Reaching server"
+                
+                println("wtf")
+                return
+            }
+        }
+    }
+    
+    func studentEntry() {
+        println("nono")
+        var parsedResult = self.appDelegate.dataStuff as! NSArray
+        var i = 0
+        for result in parsedResult {
+            
+            if i > 12 {
+            
+            let imageUrlString = result["url_m"] as! String
+            let PicToBeAdded = Picture(context: sharedContext)
+            PicToBeAdded.imagePath = imageUrlString
+            
+            PicToBeAdded.pin = self.thePin
+            }
+            i++
+            
+            
+        }
+        
+        self.collectionView.reloadData()
+        CoreDataStackManager.sharedInstance().saveContext()
+        
+        
+        return
+        
+        
     }
 
     
@@ -275,270 +327,5 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
 }
 
 
-//
-//func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-//    
-//    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PicCell", forIndexPath: indexPath) as! UICollectionViewCell
-//    
-//    //        the case to call the api in case of an empty array is discussed earlier during the process of locating the correct pin on the mapview
-//    
-//    //        if newPics.count == 12{
-//    //            let thisPic = self.newPics[indexPath.row]
-//    //            let image = UIImage(data: thisPic.image)
-//    //            let imageView = UIImageView(image: image)
-//    //            cell.backgroundView = imageView
-//    //            return cell
-//    //
-//    //        }
-//    
-//    //        if let picture = NSKeyedUnarchiver.unarchiveObjectWithFile(self.imagePath(imagePath.newPics![indexPath.row].image.lastPathComponent)) as? UIImage {
-//    println("lol")
-//    //        i = indexPath.row
-//    //        if let array = NSKeyedUnarchiver.unarchiveObjectWithFile(self.imagePath(imagePath[i].pictures) as? [MapPin],{
-//    if thePicPin.pictures!.isEmpty {
-//        println("here")
-//        let thisPic = self.thePin.pictures[indexPath.row]
-//        self.downloadImageAndSetCell(thisPic, cell: cell)
-//        
-//        //            var yup = array[i!]
-//        //            var picture = yup.pictures[indexPath.row].image
-//        //            println(savPics)
-//        //            let imageView = UIImageView(image: picture)
-//        //            cell.backgroundView = imageView
-//    }
-//        //        if let picture = savPics[indexPath.row] as? UIImage {
-//        ////        if savPics =! nil {
-//        //
-//        //            println("porqueno")
-//        //            let imageView = UIImageView(image: picture)
-//        //            cell.backgroundView = imageView
-//        //        }
-//    else{
-//        //            self.savPics.append(self.thePin)
-//        //        let thisPic = self.thePin.pictures[indexPath.row]
-//        //                self.downloadImageAndSetCell(thisPic, cell: cell)
-//        
-//        println("there")
-//        var picture = thePicPin.pictures![indexPath.row]
-//        println(savPics)
-//        //                println(thePicPin.pictures[indexPath.row])
-//        let imageView = UIImageView(image: picture)
-//        cell.backgroundView = imageView
-//        
-//        
-//        
-//    }
-//    
-//    
-//    return cell
-//    
-//}
 
-
-//    func loadPic(){
-//        var i=0
-//        for result in  thePin.pictures{
-//            let theUrl = NSURL(string: result.pic)
-//            let imageData = NSData(contentsOfURL: theUrl!)
-////            result.image = imageData!
-//            i++
-//
-//            if i>12 {
-//                return
-//            }
-//
-//
-//        }
-//
-//    }
-
-
-//    func newData() {
-//        var i = 0
-//        for result in thePin.pictures {
-//            if i < 13 {
-//                let theUrl = NSURL(string: result.imagePath)
-//                let imageData = NSData(contentsOfURL: theUrl!)
-////                result.image = imageData!
-//                self.collectionView.reloadData()
-////                self.downloadImageAndSetCell(result.imagePath, cell: UICollectionViewCell())
-//                CoreDataStackManager.sharedInstance().saveContext()
-//                i++
-//
-//            }
-//
-//    }
-//    }
-
-//        self.newPics = self.fetchedResultsController.fetchedObjects as! [Picture]
-//        if self.thePin.pictures.count > 11{
-//            dispatch_async(dispatch_get_main_queue(), {
-//                self.saveButton.enabled = true
-//                self.loadPic()
-//            })
-//        return 12
-//
-//        }
-//
-//        if self.thePin.pictures.isEmpty{
-//            dispatch_async(dispatch_get_main_queue(), {
-//                self.errorText.text = "No Pics for the spot"
-//
-//            })
-//            return 0
-//        }
-//        else {
-//        return self.thePin.pictures.count
-//        }
-
-
-//            let theUrl = NSURL(string: thisPic.pic)
-//            let imageData = NSData(contentsOfURL: theUrl!)
-//                thisPic.image = imageData!
-
-//        let image = UIImage(data: thisPic.image)
-////                thisPic.image = image
-//        let imageView = UIImageView(image: image)
-//                 dispatch_async(dispatch_get_main_queue(), {
-//        cell.backgroundView = imageView
-//                    })
-//                let image = UIImage(data: imageData!)
-//                NSKeyedArchiver.archiveRootObject(thisPic, toFile: self.picturesFilePath)
-
-
-
-//    func fetchAllPins() -> [MapPin] {
-//        let error: NSErrorPointer = nil
-//
-//        // Create the Fetch Request
-//        let fetchRequest = NSFetchRequest(entityName: "MapPin")
-//
-//        // Execute the Fetch Request
-//        let results = sharedContext.executeFetchRequest(fetchRequest, error: error)
-//
-//        // Check for Errors
-//        if error != nil {
-//            println("Error in fectchAllPins(): \(error)")
-//        }
-//
-//
-//        return results as! [MapPin]
-//
-//    }
-//
-
-
-//
-//    func findPics(){
-//        var i = 0
-//
-//        for done in self.pinot{
-//
-//            if annotation.longitude == done.cityCord {
-//                if annotation.latitude == done.latCord {
-//
-//                println(i)
-//                theDude = i
-//                println(theDude)
-//                    appDelegate.coords = annotation
-//                thePin = self.pinot[theDude]
-//
-//                if done.pictures.isEmpty {
-//
-//
-//                    Flickr.sharedInstance().authenticateWithViewController(self) { (success) in
-//                        if success {
-//                            dispatch_async(dispatch_get_main_queue(), {
-//                                self.studentEntry()
-//                                return
-//                            })
-//                        } else {
-//                            self.displayError()
-//                            println("wtf")
-//                            return
-//                }
-//                    }
-//
-//                }
-//                }
-//                else {
-//                    dispatch_async(dispatch_get_main_queue(), {
-//                       self.saveButton.enabled = true
-////                          self.collectionView.reloadData()
-//
-//                        return
-//                    })
-//
-//                }
-//
-//
-//
-//        }
-//            i++
-//        }
-//    }
-//
-//    func studentEntry() {
-//        println("nono")
-//        var parsedResult = self.appDelegate.dataStuff as! NSArray
-//        var i = 0
-//        if parsedResult.count == 0 {
-//            self.displayError()
-//        }
-//
-//        if parsedResult.count > 11{
-////            self.collectionView.reloadData()
-//        }
-//
-//            for result in parsedResult {
-//
-////                println(result)
-//                let imageUrlString = result["url_m"] as! String
-////                println(imageUrlString)
-//                let PicToBeAdded = Picture(context: sharedContext)
-//                PicToBeAdded.pic = imageUrlString
-//
-//                PicToBeAdded.pin = self.thePin
-//                println(PicToBeAdded)
-////                self.collectionView.insertItemsAtIndexPaths(thePin.pictures)
-////               self.collectionView.reloadData()
-//
-//
-//                if i<13{
-//                    let theUrl = NSURL(string: PicToBeAdded.pic)
-//                    let imageData = NSData(contentsOfURL: theUrl!)
-//                    PicToBeAdded.image = imageData!
-//                    newPics.append(PicToBeAdded)
-//
-//                    self.happen()
-//                    println(thePin.pictures.count)
-//
-//
-//                }
-//                i++
-//
-//
-//            }
-//        CoreDataStackManager.sharedInstance().saveContext()
-////        self.collectionView.reloadData()
-//        dispatch_async(dispatch_get_main_queue(), {
-//            self.saveButton.enabled = true
-//        })
-//
-//        return
-//
-//
-//    }
-//
-//    func happen(){
-//        self.collectionView.reloadData()
-//    }
-//
-//
-//
-//    func displayError() {
-//        dispatch_async(dispatch_get_main_queue(), {
-//            self.errorText.text = "No Pics"
-//        })
-//    }
     
