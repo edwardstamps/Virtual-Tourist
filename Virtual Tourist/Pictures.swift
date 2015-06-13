@@ -15,16 +15,16 @@ import CoreData
 
 class Picture: NSManagedObject {
     
-    struct Keys {
-        static let Title = "title"
-        
-    }
+//    struct Keys {
+//        static let Title = "title"
+//        
+//    }
 
 
 //    @NSManaged var unique: NSNumber
     @NSManaged var pic: String
     
-    @NSManaged var nombre: String
+//    @NSManaged var nombre: String
 
     @NSManaged var pin: MapPin?
     
@@ -40,7 +40,6 @@ class Picture: NSManagedObject {
         let entity =  NSEntityDescription.entityForName("Picture", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
 
-        
         
     }
     

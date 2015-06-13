@@ -146,7 +146,8 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
 
         
         self.newPics = self.fetchedResultsController.fetchedObjects as! [Picture]
-
+        
+        if thePicPin.pictures!.isEmpty {
 
         if newPics.count > 12 {
             dispatch_async(dispatch_get_main_queue(), {
@@ -158,6 +159,11 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         else {
         
         return newPics!.count
+        }
+        }
+        
+        else {
+            return thePicPin.pictures!.count
         }
     
     }
@@ -173,7 +179,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
 
             if thePicPin.pictures!.isEmpty {
                 println("here")
-                let thisPic = self.thePin.pictures[indexPath.row]
+                let thisPic = self.thePin.pictures![indexPath.row]
                 self.downloadImageAndSetCell(thisPic, cell: cell)
 
         }
@@ -196,23 +202,33 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
     
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
+
         // This process is pretty similar to what we did earier but on a single scale. Find a new imagePath then replace that in CoreData and also in NSArchiver when it completes its download.
          var cell = collectionView.cellForItemAtIndexPath(indexPath) as! FlickrPhotoCell
         println("gooo")
         i = indexPath.row
 //        let randomPhotoIndex = Int(arc4random_uniform(UInt32(thePin.pictures.count)))
-        let thisPic = thePin.pictures[13]
-        let deletePic = thePin.pictures[indexPath.row]
+        cell.backgroundView = nil
+        if thePin.pictures!.count > 12 {
+        let thisPic = thePin.pictures![13]
+        let deletePic = thePin.pictures![indexPath.row]
 
 
         
-        cell.backgroundView = nil
+//        cell.backgroundView = nil
         dispatch_async(dispatch_get_main_queue(), {
         let theUrl = NSURL(string: thisPic.imagePath)
+            if NSData(contentsOfURL: theUrl!) == nil {
+                self.thePicPin.pictures?.removeAtIndex(indexPath.row)
+                deletePic.pin=nil
+                deletePic.image = nil
+                self.collectionView.reloadData()
+                return
+            }
         let imageData = NSData(contentsOfURL: theUrl!)
             let image = UIImage(data: imageData!)
             let imageView = UIImageView(image: image)
+            
             
             self.thePicPin.pictures?.removeAtIndex(indexPath.row)
             deletePic.pin=nil
@@ -221,7 +237,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
             //this leverages the storeImage delete property from the image cache and deletes it from coredata
             //the pic is now removed from the collection view, core data, and NSArchiver
             
-            self.thePicPin.pictures?.insert(image!, atIndex: 11)
+            self.thePicPin.pictures?.append(image!)
             
             NSKeyedArchiver.archiveRootObject(self.savPics, toFile: self.imagePath)
             
@@ -231,6 +247,17 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
 //            cell.backgroundView = imageView
 //            thisPic.pin = nil
             })
+        }
+        
+        else {
+            let deletePic = thePin.pictures![indexPath.row]
+            dispatch_async(dispatch_get_main_queue(), {
+            self.thePicPin.pictures?.removeAtIndex(indexPath.row)
+            deletePic.pin=nil
+            deletePic.image = nil
+            })
+            
+        }
         CoreDataStackManager.sharedInstance().saveContext()
         
 
@@ -247,7 +274,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         var add = 0
         var i = 0
 
-            if thePin.pictures.count > 24 {
+            if thePin.pictures!.count > 24 {
                 thePicPin.pictures = []
                 self.findPics()
             }
@@ -267,7 +294,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         Flickr.sharedInstance().authenticateWithViewController(self) { (success) in
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
-                    for result in self.thePin.pictures {
+                    for result in self.thePin.pictures! {
                         result.pin = nil
                     }
                     self.studentEntry()

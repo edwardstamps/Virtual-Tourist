@@ -218,7 +218,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     println(i)
                     thePin = self.pins[i]
                     appDelegate.i = i
-                    if done.pictures.isEmpty {
+                    if done.pictures!.isEmpty {
                        
                         
                         Flickr.sharedInstance().authenticateWithViewController(self) { (success) in
@@ -300,7 +300,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func displayError() {
         dispatch_async(dispatch_get_main_queue(), {
-            self.appDelegate.error = "No Pics"
+            self.errorLabel.text = self.appDelegate.error
         })
     }
     

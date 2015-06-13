@@ -25,8 +25,8 @@ class Flickr: NSObject {
     let SAFE_SEARCH = "1"
     let DATA_FORMAT = "json"
     let NO_JSON_CALLBACK = "1"
-    let BOUNDING_BOX_HALF_WIDTH = 1.0
-    let BOUNDING_BOX_HALF_HEIGHT = 1.0
+    let BOUNDING_BOX_HALF_WIDTH = 0.2
+    let BOUNDING_BOX_HALF_HEIGHT = 0.2
 
     /* Shared session */
     var photosArray = [Picture]()
@@ -123,11 +123,11 @@ func getImageFromFlickrBySearch(methodArguments: [String : AnyObject], completio
                         println("Cant find key 'photo' in \(photosDictionary)")
                     }
                 } else {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        // self.photoTitleLabel.text = "No Photos Found. Search Again."
+//                    dispatch_async(dispatch_get_main_queue(), {
+                         self.appDelegate.error = "No Photos Found. Search Again."
                         //   self.defaultLabel.alpha = 1.0
                       //  self.imagePickerView.image = nil
-                    })
+//                    })
                 }
             } else {
                 println("Cant find key 'photos' in \(parsedResult)")
