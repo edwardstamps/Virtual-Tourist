@@ -121,6 +121,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
                 image.image = imaged
                 let imageView = UIImageView(image: imaged)
                 self.thePicPin.pictures?.append(imaged!)
+                
               
                 NSKeyedArchiver.archiveRootObject(self.savPics, toFile: self.imagePath)
 
@@ -219,6 +220,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         dispatch_async(dispatch_get_main_queue(), {
         let theUrl = NSURL(string: thisPic.imagePath)
             if NSData(contentsOfURL: theUrl!) == nil {
+                
                 self.thePicPin.pictures?.removeAtIndex(indexPath.row)
                 deletePic.pin=nil
                 deletePic.image = nil
@@ -228,11 +230,18 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         let imageData = NSData(contentsOfURL: theUrl!)
             let image = UIImage(data: imageData!)
             let imageView = UIImageView(image: image)
+//            self.thePicPin.pictures![indexPath.row]
+            let delete = self.thePicPin.pictures![indexPath.row]
             
+            DetViewController.Caches.imageCache.deleteImage(delete, withIdentifier: self.imagePath)
+            //the new delete
             
-            self.thePicPin.pictures?.removeAtIndex(indexPath.row)
+            self.thePicPin.pictures!.removeAtIndex(indexPath.row)
+            println(thisPic.imagePath)
             deletePic.pin=nil
             deletePic.image = nil
+
+
             
             //this leverages the storeImage delete property from the image cache and deletes it from coredata
             //the pic is now removed from the collection view, core data, and NSArchiver
@@ -243,9 +252,6 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
             
             self.collectionView.reloadData()
 
-            
-//            cell.backgroundView = imageView
-//            thisPic.pin = nil
             })
         }
         
@@ -255,6 +261,7 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
             self.thePicPin.pictures?.removeAtIndex(indexPath.row)
             deletePic.pin=nil
             deletePic.image = nil
+
             })
             
         }
@@ -337,8 +344,16 @@ class DetViewController: UIViewController, MKMapViewDelegate, UICollectionViewDa
         
         
     }
-
-    
+//    
+//    func delete(){
+//        let filemgr = NSFileManager.defaultManager()
+//        let currentPath = filemgr.currentDirectoryPath
+//        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
+//            .UserDomainMask, true)
+//        
+//        let docsDir = dirPaths[0] as! String
+//    }
+//    
 
  
  

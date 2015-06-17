@@ -17,7 +17,7 @@ import CoreData
  *
  */
 
-private let SQLITE_FILE_NAME = "cote.sqlite"
+private let SQLITE_FILE_NAME = "cotedddd.sqlite"
 
 class CoreDataStackManager {
     

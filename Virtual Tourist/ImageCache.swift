@@ -10,7 +10,7 @@ import UIKit
 
 class ImageCache {
     
-    private var inMemoryCache = NSCache()
+    var inMemoryCache = NSCache()
     
     // MARK: - Retreiving images
     
@@ -57,6 +57,16 @@ class ImageCache {
         data.writeToFile(path, atomically: true)
     }
     
+    func deleteImage(image: UIImage?, withIdentifier identifier: String) {
+        let path = pathForIdentifier(identifier)
+        inMemoryCache.removeObjectForKey(path)
+        NSFileManager.defaultManager().removeItemAtPath(path, error: nil)
+    }
+    
+    
+    func clearCache(){
+        inMemoryCache.removeAllObjects()
+    }
     // MARK: - Helper
     
     func pathForIdentifier(identifier: String) -> String {
